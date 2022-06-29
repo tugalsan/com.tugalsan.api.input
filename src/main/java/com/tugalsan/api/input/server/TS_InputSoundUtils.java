@@ -12,11 +12,11 @@ public class TS_InputSoundUtils implements Runnable {
     private double duration;
 
     public static AudioFormat createDefaultAudioFormat() {
-        AudioFormat.Encoding encoding = AudioFormat.Encoding.PCM_SIGNED;
-        float rate = 44100.0f;
+        var encoding = AudioFormat.Encoding.PCM_SIGNED;
+        var rate = 44100.0f;
         int channels = 1;
-        int sampleSize = 16;
-        boolean bigEndian = true;
+        var sampleSize = 8;
+        var bigEndian = true;
         return new AudioFormat(encoding, rate, sampleSize, channels, (sampleSize / 8) * channels, rate, bigEndian);
     }
 
@@ -43,14 +43,14 @@ public class TS_InputSoundUtils implements Runnable {
     public void run() {
         duration = 0;
 
-        try (final ByteArrayOutputStream out = new ByteArrayOutputStream(); final TargetDataLine line = getTargetDataLineForRecord();) {
+        try ( var out = new ByteArrayOutputStream();  var line = getTargetDataLineForRecord();) {
 
-            int frameSizeInBytes = format.getFrameSize();
-            int bufferLengthInFrames = line.getBufferSize() / 8;
-            final int bufferLengthInBytes = bufferLengthInFrames * frameSizeInBytes;
+            var frameSizeInBytes = format.getFrameSize();
+            var bufferLengthInFrames = line.getBufferSize() / 8;
+            var bufferLengthInBytes = bufferLengthInFrames * frameSizeInBytes;
             buildByteOutputStream(out, line, frameSizeInBytes, bufferLengthInBytes);
             this.audioInputStream = new AudioInputStream(line);
-            setAudioInputStream(convertToAudioIStream(out, frameSizeInBytes));
+            this.audioInputStream = convertToAudioIStream(out, frameSizeInBytes);
             audioInputStream.reset();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -61,9 +61,8 @@ public class TS_InputSoundUtils implements Runnable {
     }
 
     public void buildByteOutputStream(final ByteArrayOutputStream out, final TargetDataLine line, int frameSizeInBytes, final int bufferLengthInBytes) throws IOException {
-        final byte[] data = new byte[bufferLengthInBytes];
-        int numBytesRead;
-
+        var data = new byte[bufferLengthInBytes];
+        var numBytesRead = 0;
         line.start();
         while (thread != null) {
             if ((numBytesRead = line.read(data, 0, bufferLengthInBytes)) == -1) {
@@ -71,10 +70,6 @@ public class TS_InputSoundUtils implements Runnable {
             }
             out.write(data, 0, numBytesRead);
         }
-    }
-
-    private void setAudioInputStream(AudioInputStream aStream) {
-        this.audioInputStream = aStream;
     }
 
     public AudioInputStream convertToAudioIStream(final ByteArrayOutputStream out, int frameSizeInBytes) {
@@ -90,36 +85,19 @@ public class TS_InputSoundUtils implements Runnable {
     public TargetDataLine getTargetDataLineForRecord() {
         TargetDataLine line;
         DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+        System.out.println("line.info: " + info.toString());
         if (!AudioSystem.isLineSupported(info)) {
+            System.out.println("line not supported: " + info.toString());
             return null;
         }
         try {
             line = (TargetDataLine) AudioSystem.getLine(info);
             line.open(format, line.getBufferSize());
         } catch (final Exception ex) {
+            ex.printStackTrace();
             return null;
         }
         return line;
-    }
-
-    public AudioInputStream getAudioInputStream() {
-        return audioInputStream;
-    }
-
-    public AudioFormat getFormat() {
-        return format;
-    }
-
-    public void setFormat(AudioFormat format) {
-        this.format = format;
-    }
-
-    public Thread getThread() {
-        return thread;
-    }
-
-    public double getDuration() {
-        return duration;
     }
 
     public boolean saveToFile(String fileLabel) {
