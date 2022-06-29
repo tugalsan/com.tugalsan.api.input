@@ -3,7 +3,7 @@ package com.tugalsan.api.input.server;
 import java.awt.*;
 import java.awt.image.*;
 
-public class TS_InputScreen {
+public class TS_InputScreenUtils {
 
     public static Rectangle size() {
         var localGrapicsEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
