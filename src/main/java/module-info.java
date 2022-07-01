@@ -1,5 +1,6 @@
 module com.tugalsan.api.input {
     requires java.desktop;
+    requires com.tugalsan.api.unsafe;
     requires com.tugalsan.api.executable;
     requires com.tugalsan.api.shape;
     requires com.tugalsan.api.thread;

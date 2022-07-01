@@ -60,7 +60,7 @@ public class TS_InputSoundUtils implements Runnable {
         }
     }
 
-    public void buildByteOutputStream(final ByteArrayOutputStream out, final TargetDataLine line, int frameSizeInBytes, final int bufferLengthInBytes) throws IOException {
+    public void buildByteOutputStream(final ByteArrayOutputStream out, final TargetDataLine line, int frameSizeInBytes, final int bufferLengthInBytes) {
         var data = new byte[bufferLengthInBytes];
         var numBytesRead = 0;
         line.start();

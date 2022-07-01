@@ -1,11 +1,12 @@
 package com.tugalsan.api.input.server;
 
+import com.tugalsan.api.unsafe.client.*;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
-import java.util.stream.IntStream; 
- 
+import java.util.stream.IntStream;
+
 public class TS_InputKeyboardUtils {
 
     public static void typeF(int i) {
@@ -66,13 +67,11 @@ public class TS_InputKeyboardUtils {
     }
 
     public static void typeKeyEvent(int keyEvent) {
-        try {
+        TGS_UnSafe.execute(() -> {
             var robot = new Robot();
             robot.keyPress(keyEvent);
             robot.keyRelease(keyEvent);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        });
     }
 
     public static void typeString(String text) {
@@ -81,15 +80,13 @@ public class TS_InputKeyboardUtils {
     }
 
     public static void fromClipboard() {
-        try {
+        TGS_UnSafe.execute(() -> {
             var robot = new Robot();
             robot.keyPress(KeyEvent.VK_CONTROL);
             robot.keyPress(KeyEvent.VK_V);
             robot.keyRelease(KeyEvent.VK_V);
             robot.keyRelease(KeyEvent.VK_CONTROL);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        });
     }
 
     public static void toClipboard(CharSequence text) {

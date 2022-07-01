@@ -1,5 +1,6 @@
 package com.tugalsan.api.input.server;
 
+import com.tugalsan.api.unsafe.client.*;
 import java.awt.*;
 import java.awt.image.*;
 
@@ -17,7 +18,7 @@ public class TS_InputScreenUtils {
         return allScreenBounds;
     }
 
-    public BufferedImage shot(Rectangle size) throws Exception {
-        return new Robot().createScreenCapture(size);
+    public BufferedImage shot(Rectangle size) {
+        return TGS_UnSafe.compile(() -> new Robot().createScreenCapture(size));
     }
 }
