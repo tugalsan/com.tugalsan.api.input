@@ -87,11 +87,11 @@ public class TS_InputSound {
         });
     }
 
-    public boolean saveToFile(String fileLabel) {
+    public boolean saveToFile() {
         return TGS_UnSafe.compile(() -> {
             var fileType = AudioFileFormat.Type.WAVE;
             System.out.println("Saving...");
-            if (null == fileLabel || null == fileType || audioInputStream == null) {
+            if (null == fileType || audioInputStream == null) {
                 return false;
             }
             var myFile = file.toFile();
