@@ -16,14 +16,14 @@ public class TS_InputSound {
 
     public TS_InputSound(Path file) {
         this.file = file;
-        format = TGS_Coronator.of(AudioFormat.class).anoint(val -> {
+        format = TGS_Coronator.of(AudioFormat.class).coronateAs(val -> {
             var encoding = AudioFormat.Encoding.PCM_SIGNED;
             var rate = 44100.0f;
             int channels = 2;
             var sampleSize = 16;
             var bigEndian = true;
             return new AudioFormat(encoding, rate, sampleSize, channels, (sampleSize / 8) * channels, rate, bigEndian);
-        }).coronate();
+        });
         TS_ThreadPoolUtils.execute(() -> {
             TGS_UnSafe.execute(() -> {
                 try ( var out = new ByteArrayOutputStream();  var line = getTargetDataLineForRecord();) {
