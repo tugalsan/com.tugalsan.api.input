@@ -7,7 +7,6 @@ module com.tugalsan.api.input {
     requires com.tugalsan.api.pack;
     requires com.tugalsan.api.coronator;
     requires com.tugalsan.api.thread;
-    requires com.tugalsan.api.ide.netbeans;
     requires com.tugalsan.api.file.sound;
     exports com.tugalsan.api.input.server;
 }
