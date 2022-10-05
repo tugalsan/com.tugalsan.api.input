@@ -5,9 +5,14 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.util.Scanner;
 import java.util.stream.IntStream;
 
 public class TS_InputKeyboardUtils {
+    
+    public static String readLineFromConsole() {
+        return new Scanner(System.in).nextLine();
+    }
 
     public static void typeF(int i) {
         switch (i) {
