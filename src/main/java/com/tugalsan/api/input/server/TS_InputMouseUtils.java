@@ -12,6 +12,29 @@ public class TS_InputMouseUtils {
         return new TGS_ShapeLocation(point.x, point.y);
     }
 
+    public static void mouseMove(TGS_ShapeLocation<Integer> loc) {
+        TGS_UnSafe.execute(() -> {
+            var bot = new Robot();
+            bot.mouseMove(loc.x, loc.y);
+        });
+    }
+
+    public static void mousePressLeft(TGS_ShapeLocation<Integer> loc) {
+        TGS_UnSafe.execute(() -> {
+            var bot = new Robot();
+            bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+            bot.mouseMove(loc.x, loc.y);
+        });
+    }
+
+    public static void mousePressRelease(TGS_ShapeLocation<Integer> loc) {
+        TGS_UnSafe.execute(() -> {
+            var bot = new Robot();
+            bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+            bot.mouseMove(loc.x, loc.y);
+        });
+    }
+    
     public static void mouseClickLeft(TGS_ShapeLocation<Integer> loc) {
         TGS_UnSafe.execute(() -> {
             var bot = new Robot();
