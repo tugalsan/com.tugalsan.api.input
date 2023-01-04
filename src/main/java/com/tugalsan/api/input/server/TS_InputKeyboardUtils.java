@@ -9,7 +9,7 @@ import java.util.Scanner;
 import java.util.stream.IntStream;
 
 public class TS_InputKeyboardUtils {
-    
+
     public static String readLineFromConsole() {
         return new Scanner(System.in).nextLine();
     }
@@ -53,6 +53,34 @@ public class TS_InputKeyboardUtils {
                 typeKeyEvent(KeyEvent.VK_F12);
                 break;
         }
+    }
+
+    public static void typeUp() {
+        typeKeyEvent(KeyEvent.VK_UP);
+    }
+
+    public static void typeDown() {
+        typeKeyEvent(KeyEvent.VK_DOWN);
+    }
+
+    public static void typeLeft() {
+        typeKeyEvent(KeyEvent.VK_LEFT);
+    }
+
+    public static void typeRight() {
+        typeKeyEvent(KeyEvent.VK_RIGHT);
+    }
+
+    public static void typeTab() {
+        typeKeyEvent(KeyEvent.VK_TAB);
+    }
+
+    public static void typeDelRight() {
+        typeKeyEvent(KeyEvent.VK_DELETE);
+    }
+
+    public static void typeDelLeft() {
+        typeKeyEvent(KeyEvent.VK_BACK_SPACE);
     }
 
     public static void typeSpace() {
