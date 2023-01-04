@@ -19,19 +19,17 @@ public class TS_InputMouseUtils {
         });
     }
 
-    public static void mousePressLeft(TGS_ShapeLocation<Integer> loc) {
+    public static void mousePressLeft() {
         TGS_UnSafe.execute(() -> {
             var bot = new Robot();
             bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-            bot.mouseMove(loc.x, loc.y);
         });
     }
 
-    public static void mousePressRelease(TGS_ShapeLocation<Integer> loc) {
+    public static void mousePressRelease() {
         TGS_UnSafe.execute(() -> {
             var bot = new Robot();
             bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-            bot.mouseMove(loc.x, loc.y);
         });
     }
     
