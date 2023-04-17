@@ -100,7 +100,7 @@ public class TS_InputKeyboardUtils {
     }
 
     public static void typeKeyEvent(int keyEvent) {
-        TGS_UnSafe.execute(() -> {
+        TGS_UnSafe.run(() -> {
             var robot = new Robot();
             robot.keyPress(keyEvent);
             robot.keyRelease(keyEvent);
@@ -113,7 +113,7 @@ public class TS_InputKeyboardUtils {
     }
 
     public static void fromClipboard() {
-        TGS_UnSafe.execute(() -> {
+        TGS_UnSafe.run(() -> {
             var robot = new Robot();
             robot.keyPress(KeyEvent.VK_CONTROL);
             robot.keyPress(KeyEvent.VK_V);

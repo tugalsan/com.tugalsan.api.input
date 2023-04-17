@@ -25,7 +25,7 @@ public class TS_InputSound {
             return new AudioFormat(encoding, rate, sampleSize, channels, (sampleSize / 8) * channels, rate, bigEndian);
         });
         TS_ThreadRun.now(() -> {
-            TGS_UnSafe.execute(() -> {
+            TGS_UnSafe.run(() -> {
                 try ( var out = new ByteArrayOutputStream();  var line = getTargetDataLineForRecord();) {
                     var frameSizeInBytes = format.getFrameSize();
                     var bufferLengthInFrames = line.getBufferSize() / 8;
@@ -71,7 +71,7 @@ public class TS_InputSound {
     }
 
     private TargetDataLine getTargetDataLineForRecord() {
-        return TGS_UnSafe.compile(() -> {
+        return TGS_UnSafe.call(() -> {
             var info = new DataLine.Info(TargetDataLine.class, format);
             System.out.println("line.info: " + info.toString());
             if (!AudioSystem.isLineSupported(info)) {
@@ -88,7 +88,7 @@ public class TS_InputSound {
     }
 
     public boolean saveToFile() {
-        return TGS_UnSafe.compile(() -> {
+        return TGS_UnSafe.call(() -> {
             var fileType = AudioFileFormat.Type.WAVE;
             System.out.println("Saving...");
             if (null == fileType || audioInputStream == null) {
