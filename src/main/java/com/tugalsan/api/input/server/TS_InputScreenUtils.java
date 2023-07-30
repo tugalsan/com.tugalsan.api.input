@@ -18,7 +18,15 @@ public class TS_InputScreenUtils {
         return allScreenBounds;
     }
 
-    public BufferedImage shot(Rectangle size) {
-        return TGS_UnSafe.call(() -> new Robot().createScreenCapture(size));
+    public static BufferedImage shotPicture(Rectangle size) {
+        return robot().createScreenCapture(size);
+    }
+
+    public static Robot robot() {
+        return TGS_UnSafe.call(() -> new Robot());
+    }
+
+    public static BufferedImage shotPictures(Robot robot, Rectangle size) {
+        return robot.createScreenCapture(size);
     }
 }
