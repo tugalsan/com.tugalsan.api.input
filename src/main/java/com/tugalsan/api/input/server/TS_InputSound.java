@@ -2,7 +2,7 @@
 package com.tugalsan.api.input.server;
 
 import com.tugalsan.api.coronator.client.*;
-import com.tugalsan.api.thread.server.TS_ThreadRun;
+import com.tugalsan.api.thread.server.async.TS_ThreadAsync;
 import com.tugalsan.api.unsafe.client.*;
 import java.io.*;
 import java.nio.file.*;
@@ -24,7 +24,7 @@ public class TS_InputSound {
             var bigEndian = true;
             return new AudioFormat(encoding, rate, sampleSize, channels, (sampleSize / 8) * channels, rate, bigEndian);
         });
-        TS_ThreadRun.now(() -> {
+        TS_ThreadAsync.now(() -> {
             TGS_UnSafe.run(() -> {
                 try ( var out = new ByteArrayOutputStream();  var line = getTargetDataLineForRecord();) {
                     var frameSizeInBytes = format.getFrameSize();
