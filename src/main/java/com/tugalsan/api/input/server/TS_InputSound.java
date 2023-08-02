@@ -2,7 +2,7 @@
 package com.tugalsan.api.input.server;
 
 import com.tugalsan.api.coronator.client.*;
-import com.tugalsan.api.thread.server.async.TS_ThreadAsync;
+import com.tugalsan.api.thread.server.struct.async.TS_ThreadAsync;
 import com.tugalsan.api.unsafe.client.*;
 import java.io.*;
 import java.nio.file.*;
