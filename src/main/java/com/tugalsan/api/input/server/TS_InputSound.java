@@ -2,7 +2,7 @@
 package com.tugalsan.api.input.server;
 
 import com.tugalsan.api.coronator.client.*;
-import com.tugalsan.api.thread.server.safe.TS_ThreadSafeTrigger;
+import com.tugalsan.api.thread.server.sync.TS_ThreadSyncTrigger;
 import com.tugalsan.api.thread.server.async.TS_ThreadAsync;
 import com.tugalsan.api.unsafe.client.*;
 import java.io.*;
@@ -11,11 +11,11 @@ import javax.sound.sampled.*;
 
 public class TS_InputSound {
 
-    public static TS_InputSound of(TS_ThreadSafeTrigger killTrigger, Path file) {
+    public static TS_InputSound of(TS_ThreadSyncTrigger killTrigger, Path file) {
         return new TS_InputSound(killTrigger, file);
     }
 
-    public TS_InputSound(TS_ThreadSafeTrigger killTrigger, Path file) {
+    public TS_InputSound(TS_ThreadSyncTrigger killTrigger, Path file) {
         this.file = file;
         format = TGS_Coronator.of(AudioFormat.class).coronateAs(val -> {
             var encoding = AudioFormat.Encoding.PCM_SIGNED;
@@ -49,7 +49,7 @@ public class TS_InputSound {
         return this;
     }
 
-    private void pumpByteOutputStream(TS_ThreadSafeTrigger killTrigger, ByteArrayOutputStream out, TargetDataLine line, int bufferLengthInBytes) {
+    private void pumpByteOutputStream(TS_ThreadSyncTrigger killTrigger, ByteArrayOutputStream out, TargetDataLine line, int bufferLengthInBytes) {
         var data = new byte[bufferLengthInBytes];
         var numBytesRead = 0;
         line.start();
