@@ -2,7 +2,8 @@
 package com.tugalsan.api.input.server;
 
 import com.tugalsan.api.coronator.client.*;
-import com.tugalsan.api.thread.server.struct.async.TS_ThreadAsync;
+import com.tugalsan.api.thread.server.TS_ThreadKillTrigger;
+import com.tugalsan.api.thread.server.async.TS_ThreadAsync;
 import com.tugalsan.api.unsafe.client.*;
 import java.io.*;
 import java.nio.file.*;
@@ -10,11 +11,11 @@ import javax.sound.sampled.*;
 
 public class TS_InputSound {
 
-    public static TS_InputSound of(Path file) {
-        return new TS_InputSound(file);
+    public static TS_InputSound of(TS_ThreadKillTrigger killTrigger, Path file) {
+        return new TS_InputSound(killTrigger, file);
     }
 
-    public TS_InputSound(Path file) {
+    public TS_InputSound(TS_ThreadKillTrigger killTrigger, Path file) {
         this.file = file;
         format = TGS_Coronator.of(AudioFormat.class).coronateAs(val -> {
             var encoding = AudioFormat.Encoding.PCM_SIGNED;
@@ -24,13 +25,13 @@ public class TS_InputSound {
             var bigEndian = true;
             return new AudioFormat(encoding, rate, sampleSize, channels, (sampleSize / 8) * channels, rate, bigEndian);
         });
-        TS_ThreadAsync.now(() -> {
+        TS_ThreadAsync.now(killTrigger, kt -> {
             TGS_UnSafe.run(() -> {
-                try ( var out = new ByteArrayOutputStream();  var line = getTargetDataLineForRecord();) {
+                try (var out = new ByteArrayOutputStream(); var line = getTargetDataLineForRecord();) {
                     var frameSizeInBytes = format.getFrameSize();
                     var bufferLengthInFrames = line.getBufferSize() / 8;
                     var bufferLengthInBytes = bufferLengthInFrames * frameSizeInBytes;
-                    buildByteOutputStream(out, line, bufferLengthInBytes);
+                    pumpByteOutputStream(killTrigger, out, line, bufferLengthInBytes);
                     audioInputStream = new AudioInputStream(line);
                     audioInputStream = convertToAudioIStream(out, frameSizeInBytes);
                     audioInputStream.reset();
@@ -48,7 +49,7 @@ public class TS_InputSound {
         return this;
     }
 
-    private void buildByteOutputStream(ByteArrayOutputStream out, TargetDataLine line, int bufferLengthInBytes) {
+    private void pumpByteOutputStream(TS_ThreadKillTrigger killTrigger, ByteArrayOutputStream out, TargetDataLine line, int bufferLengthInBytes) {
         var data = new byte[bufferLengthInBytes];
         var numBytesRead = 0;
         line.start();
@@ -57,6 +58,9 @@ public class TS_InputSound {
                 break;
             }
             out.write(data, 0, numBytesRead);
+            if (killTrigger.hasTriggered()) {
+                kill = true;
+            }
         }
     }
 
