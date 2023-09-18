@@ -14,40 +14,40 @@ public class TS_InputMouseUtils {
 
     public static void mouseMove(TGS_ShapeLocation<Integer> loc) {
         TGS_UnSafe.run(() -> {
-            var bot = new Robot();
-            bot.mouseMove(loc.x, loc.y);
+            var robot = TS_InputCommonUtils.robot();
+            robot.mouseMove(loc.x, loc.y);
         });
     }
 
     public static void mousePressLeft() {
         TGS_UnSafe.run(() -> {
-            var bot = new Robot();
-            bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+            var robot = TS_InputCommonUtils.robot();
+            robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         });
     }
 
     public static void mousePressRelease() {
         TGS_UnSafe.run(() -> {
-            var bot = new Robot();
-            bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+            var robot = TS_InputCommonUtils.robot();
+            robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
         });
     }
-    
+
     public static void mouseClickLeft(TGS_ShapeLocation<Integer> loc) {
         TGS_UnSafe.run(() -> {
-            var bot = new Robot();
-            bot.mouseMove(loc.x, loc.y);
-            bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-            bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+            var robot = TS_InputCommonUtils.robot();
+            robot.mouseMove(loc.x, loc.y);
+            robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+            robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
         });
     }
 
     public static void mouseClickRight(TGS_ShapeLocation<Integer> loc) {
         TGS_UnSafe.run(() -> {
-            var bot = new Robot();
-            bot.mouseMove(loc.x, loc.y);
-            bot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
-            bot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
+            var robot = TS_InputCommonUtils.robot();
+            robot.mouseMove(loc.x, loc.y);
+            robot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
+            robot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
         });
     }
 }
