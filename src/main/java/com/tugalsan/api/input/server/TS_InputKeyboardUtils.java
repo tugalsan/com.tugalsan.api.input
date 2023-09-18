@@ -15,18 +15,30 @@ public class TS_InputKeyboardUtils {
 
     public static void typeF(int i) {
         switch (i) {
-            case 1 -> typeKeyEvent(KeyEvent.VK_F1);
-            case 2 -> typeKeyEvent(KeyEvent.VK_F2);
-            case 3 -> typeKeyEvent(KeyEvent.VK_F3);
-            case 4 -> typeKeyEvent(KeyEvent.VK_F4);
-            case 5 -> typeKeyEvent(KeyEvent.VK_F5);
-            case 6 -> typeKeyEvent(KeyEvent.VK_F6);
-            case 7 -> typeKeyEvent(KeyEvent.VK_F7);
-            case 8 -> typeKeyEvent(KeyEvent.VK_F8);
-            case 9 -> typeKeyEvent(KeyEvent.VK_F9);
-            case 10 -> typeKeyEvent(KeyEvent.VK_F10);
-            case 11 -> typeKeyEvent(KeyEvent.VK_F11);
-            case 12 -> typeKeyEvent(KeyEvent.VK_F12);
+            case 1 ->
+                typeKeyEvent(KeyEvent.VK_F1);
+            case 2 ->
+                typeKeyEvent(KeyEvent.VK_F2);
+            case 3 ->
+                typeKeyEvent(KeyEvent.VK_F3);
+            case 4 ->
+                typeKeyEvent(KeyEvent.VK_F4);
+            case 5 ->
+                typeKeyEvent(KeyEvent.VK_F5);
+            case 6 ->
+                typeKeyEvent(KeyEvent.VK_F6);
+            case 7 ->
+                typeKeyEvent(KeyEvent.VK_F7);
+            case 8 ->
+                typeKeyEvent(KeyEvent.VK_F8);
+            case 9 ->
+                typeKeyEvent(KeyEvent.VK_F9);
+            case 10 ->
+                typeKeyEvent(KeyEvent.VK_F10);
+            case 11 ->
+                typeKeyEvent(KeyEvent.VK_F11);
+            case 12 ->
+                typeKeyEvent(KeyEvent.VK_F12);
         }
     }
 
@@ -78,6 +90,20 @@ public class TS_InputKeyboardUtils {
         TGS_UnSafe.run(() -> {
             var robot = TS_InputCommonUtils.robot();
             robot.keyPress(keyEvent);
+            robot.keyRelease(keyEvent);
+        });
+    }
+
+    public static void pressKeyEvent(int keyEvent) {
+        TGS_UnSafe.run(() -> {
+            var robot = TS_InputCommonUtils.robot();
+            robot.keyPress(keyEvent);
+        });
+    }
+
+    public static void releaseKeyEvent(int keyEvent) {
+        TGS_UnSafe.run(() -> {
+            var robot = TS_InputCommonUtils.robot();
             robot.keyRelease(keyEvent);
         });
     }
