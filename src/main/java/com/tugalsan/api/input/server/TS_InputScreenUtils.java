@@ -10,7 +10,7 @@ public class TS_InputScreenUtils {
         var screensDevices = localGrapicsEnv.getScreenDevices();
         var allScreenBounds = new Rectangle();
         for (var screen : screensDevices) {
-            Rectangle screenBounds = screen.getDefaultConfiguration().getBounds();
+            var screenBounds = screen.getDefaultConfiguration().getBounds();
             allScreenBounds.width += screenBounds.width;
             allScreenBounds.height = Math.max(allScreenBounds.height, screenBounds.height);
         }
