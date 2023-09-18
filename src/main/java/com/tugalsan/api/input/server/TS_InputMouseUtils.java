@@ -12,11 +12,15 @@ public class TS_InputMouseUtils {
         return new TGS_ShapeLocation(point.x, point.y);
     }
 
-    public static void mouseMove(TGS_ShapeLocation<Integer> loc) {
+    public static void mouseMove(int x, int y) {
         TGS_UnSafe.run(() -> {
             var robot = TS_InputCommonUtils.robot();
-            robot.mouseMove(loc.x, loc.y);
+            robot.mouseMove(x, y);
         });
+    }
+
+    public static void mouseMove(TGS_ShapeLocation<Integer> loc) {
+        mouseMove(loc.x, loc.y);
     }
 
     public static void mousePressLeft() {
