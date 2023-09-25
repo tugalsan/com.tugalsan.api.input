@@ -5,16 +5,27 @@ import java.awt.image.*;
 
 public class TS_InputScreenUtils {
 
+//    public static Rectangle size() {
+//        var localGrapicsEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//        var screensDevices = localGrapicsEnv.getScreenDevices();
+//        var allScreenBounds = new Rectangle();
+//        for (var screen : screensDevices) {
+//            var screenBounds = screen.getDefaultConfiguration().getBounds();
+//            allScreenBounds.width += screenBounds.width;
+//            allScreenBounds.height = Math.max(allScreenBounds.height, screenBounds.height);
+//        }
+//        return allScreenBounds;
+//    }
     public static Rectangle size() {
-        var localGrapicsEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        var screensDevices = localGrapicsEnv.getScreenDevices();
-        var allScreenBounds = new Rectangle();
-        for (var screen : screensDevices) {
-            var screenBounds = screen.getDefaultConfiguration().getBounds();
-            allScreenBounds.width += screenBounds.width;
-            allScreenBounds.height = Math.max(allScreenBounds.height, screenBounds.height);
+        var rectangle = new Rectangle(0, 0, 0, 0);
+        for (var graphicsDevice : GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()) {
+            rectangle = rectangle.union(graphicsDevice.getDefaultConfiguration().getBounds());
         }
-        return allScreenBounds;
+        return rectangle;
+    }
+    
+    public static float scale() {
+        return Toolkit.getDefaultToolkit().getScreenResolution() / 96f;
     }
 
     public static BufferedImage shotPicture(Rectangle size) {
