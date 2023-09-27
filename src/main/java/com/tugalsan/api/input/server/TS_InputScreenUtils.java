@@ -16,6 +16,15 @@ public class TS_InputScreenUtils {
 //        }
 //        return allScreenBounds;
 //    }
+    public static Rectangle size(float scale) {
+        var r = size();
+        r.x = (int) (r.x * scale);
+        r.y = (int) (r.y * scale);
+        r.width = (int) (r.width * scale);
+        r.height = (int) (r.height * scale);
+        return r;
+    }
+
     public static Rectangle size() {
         var rectangle = new Rectangle(0, 0, 0, 0);
         for (var graphicsDevice : GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()) {
@@ -23,7 +32,7 @@ public class TS_InputScreenUtils {
         }
         return rectangle;
     }
-    
+
     public static float scale() {
         return Toolkit.getDefaultToolkit().getScreenResolution() / 96f;
     }
