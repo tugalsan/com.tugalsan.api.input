@@ -16,6 +16,7 @@ public class TS_InputScreenUtils {
 //        }
 //        return allScreenBounds;
 //    }
+    @Deprecated //Warning: GRAALVM NO-CONSOLE NOT WORKING!!!
     public static Rectangle size(float scale) {
         var r = size();
         r.x = (int) (r.x * scale);
@@ -25,6 +26,7 @@ public class TS_InputScreenUtils {
         return r;
     }
 
+    @Deprecated //Warning: GRAALVM NO-CONSOLE NOT WORKING!!!
     public static Rectangle size() {
         var rectangle = new Rectangle(0, 0, 0, 0);
         for (var graphicsDevice : GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()) {
