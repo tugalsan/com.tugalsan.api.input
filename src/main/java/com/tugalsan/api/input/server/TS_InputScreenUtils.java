@@ -16,7 +16,7 @@ public class TS_InputScreenUtils {
 //        }
 //        return allScreenBounds;
 //    }
-    public static Rectangle size(float scale, Rectangle source) {
+    public static Rectangle calcSize(float scale, Rectangle source) {
         var r = new Rectangle(source.x, source.y, source.width, source.height);
         r.x = (int) (r.x * scale);
         r.y = (int) (r.y * scale);
@@ -44,10 +44,12 @@ public class TS_InputScreenUtils {
         return rectangle;
     }
 
+    @Deprecated //Warning: GRAALVM NO-CONSOLE NOT WORKING!!!
     public static float scale() {
         return Toolkit.getDefaultToolkit().getScreenResolution() / 96f;
     }
 
+    @Deprecated //Warning: GRAALVM NO-CONSOLE NOT WORKING!!!
     public static BufferedImage shotPicture(Rectangle size) {
         return TS_InputCommonUtils.robot().createScreenCapture(size);
     }
