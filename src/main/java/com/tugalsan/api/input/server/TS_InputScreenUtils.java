@@ -16,6 +16,15 @@ public class TS_InputScreenUtils {
 //        }
 //        return allScreenBounds;
 //    }
+    public static Rectangle size(float scale, Rectangle source) {
+        var r = new Rectangle(source.x, source.y, source.width, source.height);
+        r.x = (int) (r.x * scale);
+        r.y = (int) (r.y * scale);
+        r.width = (int) (r.width * scale);
+        r.height = (int) (r.height * scale);
+        return r;
+    }
+
     @Deprecated //Warning: GRAALVM NO-CONSOLE NOT WORKING!!!
     public static Rectangle size(float scale) {
         var r = size();
