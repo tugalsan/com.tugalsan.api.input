@@ -18,7 +18,7 @@ public class TS_InputSound {
     public TS_InputSound(TS_ThreadSyncTrigger killTrigger, Path file) {
         this.file = file;
         format = TGS_Coronator.of(AudioFormat.class).coronateAs(val -> {
-            var encoding = AudioFormat.Encoding.PCM_SIGNED;
+            var encoding = AudioFormat.Encoding.PCM_SIGNED; 
             var rate = 44100.0f;
             int channels = 2;
             var sampleSize = 16;
