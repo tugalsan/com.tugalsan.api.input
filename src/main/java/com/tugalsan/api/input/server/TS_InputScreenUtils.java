@@ -50,7 +50,12 @@ public class TS_InputScreenUtils {
     }
 
     @Deprecated //Warning: GRAALVM NO-CONSOLE NOT WORKING!!!
+    public static BufferedImage shotPicture(Robot robot, Rectangle size) {
+        return robot.createScreenCapture(size);
+    }
+
+    @Deprecated //Warning: GRAALVM NO-CONSOLE NOT WORKING!!!
     public static BufferedImage shotPicture(Rectangle size) {
-        return TS_InputCommonUtils.robot().createScreenCapture(size);
+        return shotPicture(TS_InputCommonUtils.robot(), size);
     }
 }
