@@ -20,7 +20,7 @@ public class TS_InputSound {
         format = TGS_Coronator.of(AudioFormat.class).coronateAs(val -> {
             var encoding = AudioFormat.Encoding.PCM_SIGNED;
             var rate = 44100.0f;
-            int channels = 2;
+            var channels = 2;
             var sampleSize = 16;
             var bigEndian = true;
             return new AudioFormat(encoding, rate, sampleSize, channels, (sampleSize / 8) * channels, rate, bigEndian);
@@ -51,7 +51,7 @@ public class TS_InputSound {
 
     private void pumpByteOutputStream(TS_ThreadSyncTrigger killTrigger, ByteArrayOutputStream out, TargetDataLine line, int bufferLengthInBytes) {
         var data = new byte[bufferLengthInBytes];
-        var numBytesRead = 0;
+        int numBytesRead;
         line.start();
         while (!kill) {
             if ((numBytesRead = line.read(data, 0, bufferLengthInBytes)) == -1) {
@@ -100,9 +100,9 @@ public class TS_InputSound {
             }
             var myFile = file.toFile();
             audioInputStream.reset();
-            int i = 0;
+            var i = 0;
             while (myFile.exists()) {
-                String temp = "" + i + myFile.getName();
+                var temp = "" + i + myFile.getName();
                 myFile = new File(temp);
             }
             AudioSystem.write(audioInputStream, fileType, myFile);
