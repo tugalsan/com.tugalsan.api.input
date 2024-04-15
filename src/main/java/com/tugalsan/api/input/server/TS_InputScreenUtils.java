@@ -1,5 +1,6 @@
 package com.tugalsan.api.input.server;
 
+import com.tugalsan.api.union.client.TGS_UnionExcuse;
 import java.awt.*;
 import java.awt.image.*;
 
@@ -55,7 +56,11 @@ public class TS_InputScreenUtils {
     }
 
     @Deprecated //Warning: GRAALVM NO-CONSOLE NOT WORKING!!!
-    public static BufferedImage shotPicture(Rectangle size) {
-        return shotPicture(TS_InputCommonUtils.robot(), size);
+    public static TGS_UnionExcuse<BufferedImage> shotPicture(Rectangle size) {
+        var u_robot = TS_InputCommonUtils.robot();
+        if (u_robot.isExcuse()) {
+            return u_robot.toExcuse();
+        }
+        return TGS_UnionExcuse.of(shotPicture(u_robot.value(), size));
     }
 }

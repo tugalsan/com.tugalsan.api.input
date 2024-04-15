@@ -2,22 +2,21 @@
 package com.tugalsan.api.input.server;
 
 import com.tugalsan.api.coronator.client.*;
+import com.tugalsan.api.runnable.client.TGS_RunnableType1;
 import com.tugalsan.api.thread.server.sync.TS_ThreadSyncTrigger;
 import com.tugalsan.api.thread.server.async.TS_ThreadAsync;
-import com.tugalsan.api.unsafe.client.*;
+import com.tugalsan.api.union.client.TGS_UnionExcuse;
+import com.tugalsan.api.union.client.TGS_UnionExcuseVoid;
 import java.io.*;
 import java.nio.file.*;
 import javax.sound.sampled.*;
 
 public class TS_InputSound {
-
-    public static TS_InputSound of(TS_ThreadSyncTrigger killTrigger, Path file) {
-        return new TS_InputSound(killTrigger, file);
-    }
-
-    public TS_InputSound(TS_ThreadSyncTrigger killTrigger, Path file) {
-        this.file = file;
-        format = TGS_Coronator.of(AudioFormat.class).coronateAs(val -> {
+    
+    public static TS_InputSound of(TS_ThreadSyncTrigger killTrigger, Path file, TGS_RunnableType1<Throwable> onError) {
+        var _this = new TS_InputSound();
+        _this.file = file;
+        _this.format = TGS_Coronator.of(AudioFormat.class).coronateAs(val -> {
             var encoding = AudioFormat.Encoding.PCM_SIGNED;
             var rate = 44100.0f;
             var channels = 2;
@@ -26,29 +25,39 @@ public class TS_InputSound {
             return new AudioFormat(encoding, rate, sampleSize, channels, (sampleSize / 8) * channels, rate, bigEndian);
         });
         TS_ThreadAsync.now(killTrigger, kt -> {
-            TGS_UnSafe.run(() -> {
-                try (var out = new ByteArrayOutputStream(); var line = getTargetDataLineForRecord();) {
-                    var frameSizeInBytes = format.getFrameSize();
-                    var bufferLengthInFrames = line.getBufferSize() / 8;
-                    var bufferLengthInBytes = bufferLengthInFrames * frameSizeInBytes;
-                    pumpByteOutputStream(killTrigger, out, line, bufferLengthInBytes);
-                    audioInputStream = new AudioInputStream(line);
-                    audioInputStream = convertToAudioIStream(out, frameSizeInBytes);
-                    audioInputStream.reset();
-                }
-            });
+            var u_line = _this.getTargetDataLineForRecord();
+            if (u_line.isExcuse()) {
+                return;
+            }
+            try (var out = new ByteArrayOutputStream(); var line = u_line.value()) {
+                var frameSizeInBytes = _this.format.getFrameSize();
+                var bufferLengthInFrames = line.getBufferSize() / 8;
+                var bufferLengthInBytes = bufferLengthInFrames * frameSizeInBytes;
+                _this.pumpByteOutputStream(killTrigger, out, line, bufferLengthInBytes);
+                _this.audioInputStream = new AudioInputStream(line);
+                _this.audioInputStream = _this.convertToAudioIStream(out, frameSizeInBytes);
+                _this.audioInputStream.reset();
+            } catch (IOException ex) {
+                onError.run(ex);
+            }
         });
+        
+        return _this;
+    }
+    
+    private TS_InputSound() {
+        
     }
     private Path file;
     private AudioFormat format;
     private AudioInputStream audioInputStream;
     private boolean kill = false;
-
+    
     public TS_InputSound kill() {
         kill = true;
         return this;
     }
-
+    
     private void pumpByteOutputStream(TS_ThreadSyncTrigger killTrigger, ByteArrayOutputStream out, TargetDataLine line, int bufferLengthInBytes) {
         var data = new byte[bufferLengthInBytes];
         int numBytesRead;
@@ -63,7 +72,7 @@ public class TS_InputSound {
             }
         }
     }
-
+    
     private AudioInputStream convertToAudioIStream(ByteArrayOutputStream out, int frameSizeInBytes) {
         var audioBytes = out.toByteArray();
         var bais = new ByteArrayInputStream(audioBytes);
@@ -73,9 +82,9 @@ public class TS_InputSound {
         System.out.println("Recorded duration in seconds:" + duration);
         return audioStream;
     }
-
-    private TargetDataLine getTargetDataLineForRecord() {
-        return TGS_UnSafe.call(() -> {
+    
+    private TGS_UnionExcuse<TargetDataLine> getTargetDataLineForRecord() {
+        try {
             var info = new DataLine.Info(TargetDataLine.class, format);
             System.out.println("line.info: " + info.toString());
             if (!AudioSystem.isLineSupported(info)) {
@@ -84,19 +93,18 @@ public class TS_InputSound {
             }
             var line = (TargetDataLine) AudioSystem.getLine(info);
             line.open(format, line.getBufferSize());
-            return line;
-        }, e -> {
-            e.printStackTrace();
-            return null;
-        });
+            return TGS_UnionExcuse.of(line);
+        } catch (LineUnavailableException ex) {
+            return TGS_UnionExcuse.ofExcuse(ex);
+        }
     }
-
-    public boolean saveToFile() {
-        return TGS_UnSafe.call(() -> {
+    
+    public TGS_UnionExcuseVoid saveToFile() {
+        try {
             var fileType = AudioFileFormat.Type.WAVE;
             System.out.println("Saving...");
             if (null == fileType || audioInputStream == null) {
-                return false;
+                return TGS_UnionExcuseVoid.ofExcuse(TS_InputSound.class.getSimpleName(), "saveToFile", "null == fileType || audioInputStream == null");
             }
             var myFile = file.toFile();
             audioInputStream.reset();
@@ -107,10 +115,9 @@ public class TS_InputSound {
             }
             AudioSystem.write(audioInputStream, fileType, myFile);
             System.out.println("Saved " + myFile.getAbsolutePath());
-            return true;
-        }, e -> {
-            e.printStackTrace();
-            return false;
-        });
+            return TGS_UnionExcuseVoid.ofVoid();
+        } catch (IOException ex) {
+            return TGS_UnionExcuseVoid.ofExcuse(ex);
+        }
     }
 }

@@ -1,15 +1,22 @@
 package com.tugalsan.api.input.server;
 
-import com.tugalsan.api.unsafe.client.TGS_UnSafe;
+import com.tugalsan.api.union.client.TGS_UnionExcuse;
+import java.awt.AWTException;
 import java.awt.Robot;
 
 public class TS_InputCommonUtils {
 
-    public static Robot robot() {
+    public static TGS_UnionExcuse<Robot> robot() {
         if (robot != null) {
             return robot;
         }
-        return TGS_UnSafe.call(() -> new Robot(), e -> null);
+        Robot _robot;
+        try {
+            _robot = new Robot();
+        } catch (AWTException ex) {
+            return TGS_UnionExcuse.ofExcuse(ex);
+        }
+        return robot = TGS_UnionExcuse.of(_robot);
     }
-    private static volatile Robot robot = null;
+    private static volatile TGS_UnionExcuse<Robot> robot = null;
 }

@@ -1,11 +1,10 @@
 package com.tugalsan.api.input.server;
 
-import com.tugalsan.api.unsafe.client.*;
+import com.tugalsan.api.union.client.TGS_UnionExcuseVoid;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.util.Scanner;
-import java.util.stream.IntStream;
 
 public class TS_InputKeyboardUtils {
 
@@ -13,8 +12,8 @@ public class TS_InputKeyboardUtils {
         return new Scanner(System.in).nextLine();
     }
 
-    public static void typeF(int i) {
-        switch (i) {
+    public static TGS_UnionExcuseVoid typeF(int i) {
+        return switch (i) {
             case 1 ->
                 typeKeyEvent(KeyEvent.VK_F1);
             case 2 ->
@@ -39,88 +38,108 @@ public class TS_InputKeyboardUtils {
                 typeKeyEvent(KeyEvent.VK_F11);
             case 12 ->
                 typeKeyEvent(KeyEvent.VK_F12);
+            default ->
+                TGS_UnionExcuseVoid.ofExcuse(TS_InputKeyboardUtils.class.getSimpleName(), "typeF", "un-expected input: " + i);
+        };
+    }
+
+    public static TGS_UnionExcuseVoid typeUp() {
+        return typeKeyEvent(KeyEvent.VK_UP);
+    }
+
+    public static TGS_UnionExcuseVoid typeDown() {
+        return typeKeyEvent(KeyEvent.VK_DOWN);
+    }
+
+    public static TGS_UnionExcuseVoid typeLeft() {
+        return typeKeyEvent(KeyEvent.VK_LEFT);
+    }
+
+    public static TGS_UnionExcuseVoid typeRight() {
+        return typeKeyEvent(KeyEvent.VK_RIGHT);
+    }
+
+    public static TGS_UnionExcuseVoid typeTab() {
+        return typeKeyEvent(KeyEvent.VK_TAB);
+    }
+
+    public static TGS_UnionExcuseVoid typeDelRight() {
+        return typeKeyEvent(KeyEvent.VK_DELETE);
+    }
+
+    public static TGS_UnionExcuseVoid typeDelLeft() {
+        return typeKeyEvent(KeyEvent.VK_BACK_SPACE);
+    }
+
+    public static TGS_UnionExcuseVoid typeSpace() {
+        return typeKeyEvent(KeyEvent.VK_SPACE);
+    }
+
+    public static TGS_UnionExcuseVoid typeEsc() {
+        return typeKeyEvent(KeyEvent.VK_ESCAPE);
+    }
+
+    public static TGS_UnionExcuseVoid typeEnter() {
+        return typeKeyEvent(KeyEvent.VK_ENTER);
+    }
+
+    public static TGS_UnionExcuseVoid typeTab(int count) {
+        for (var i = 0; i < count; i++) {
+            var u = typeKeyEvent(KeyEvent.VK_TAB);
+            if (u.isExcuse()) {
+                return u;
+            }
         }
+        return TGS_UnionExcuseVoid.ofVoid();
     }
 
-    public static void typeUp() {
-        typeKeyEvent(KeyEvent.VK_UP);
+    public static TGS_UnionExcuseVoid typeKeyEvent(int keyEvent) {
+        var u_robot = TS_InputCommonUtils.robot();
+        if (u_robot.isExcuse()) {
+            return u_robot.toExcuseVoid();
+        }
+        var robot = u_robot.value();
+        robot.keyPress(keyEvent);
+        robot.keyRelease(keyEvent);
+        return TGS_UnionExcuseVoid.ofVoid();
     }
 
-    public static void typeDown() {
-        typeKeyEvent(KeyEvent.VK_DOWN);
+    public static TGS_UnionExcuseVoid pressKeyEvent(int keyEvent) {
+        var u_robot = TS_InputCommonUtils.robot();
+        if (u_robot.isExcuse()) {
+            return u_robot.toExcuseVoid();
+        }
+        var robot = u_robot.value();
+        robot.keyPress(keyEvent);
+        return TGS_UnionExcuseVoid.ofVoid();
     }
 
-    public static void typeLeft() {
-        typeKeyEvent(KeyEvent.VK_LEFT);
+    public static TGS_UnionExcuseVoid releaseKeyEvent(int keyEvent) {
+        var u_robot = TS_InputCommonUtils.robot();
+        if (u_robot.isExcuse()) {
+            return u_robot.toExcuseVoid();
+        }
+        var robot = u_robot.value();
+        robot.keyRelease(keyEvent);
+        return TGS_UnionExcuseVoid.ofVoid();
     }
 
-    public static void typeRight() {
-        typeKeyEvent(KeyEvent.VK_RIGHT);
-    }
-
-    public static void typeTab() {
-        typeKeyEvent(KeyEvent.VK_TAB);
-    }
-
-    public static void typeDelRight() {
-        typeKeyEvent(KeyEvent.VK_DELETE);
-    }
-
-    public static void typeDelLeft() {
-        typeKeyEvent(KeyEvent.VK_BACK_SPACE);
-    }
-
-    public static void typeSpace() {
-        typeKeyEvent(KeyEvent.VK_SPACE);
-    }
-
-    public static void typeEsc() {
-        typeKeyEvent(KeyEvent.VK_ESCAPE);
-    }
-
-    public static void typeEnter() {
-        typeKeyEvent(KeyEvent.VK_ENTER);
-    }
-
-    public static void typeTab(int count) {
-        IntStream.range(0, count).forEachOrdered(i -> typeKeyEvent(KeyEvent.VK_TAB));
-    }
-
-    public static void typeKeyEvent(int keyEvent) {
-        TGS_UnSafe.run(() -> {
-            var robot = TS_InputCommonUtils.robot();
-            robot.keyPress(keyEvent);
-            robot.keyRelease(keyEvent);
-        });
-    }
-
-    public static void pressKeyEvent(int keyEvent) {
-        TGS_UnSafe.run(() -> {
-            var robot = TS_InputCommonUtils.robot();
-            robot.keyPress(keyEvent);
-        });
-    }
-
-    public static void releaseKeyEvent(int keyEvent) {
-        TGS_UnSafe.run(() -> {
-            var robot = TS_InputCommonUtils.robot();
-            robot.keyRelease(keyEvent);
-        });
-    }
-
-    public static void typeString(String text) {
+    public static TGS_UnionExcuseVoid typeString(String text) {
         toClipboard(text);
-        fromClipboard();
+        return fromClipboard();
     }
 
-    public static void fromClipboard() {
-        TGS_UnSafe.run(() -> {
-            var robot = TS_InputCommonUtils.robot();
-            robot.keyPress(KeyEvent.VK_CONTROL);
-            robot.keyPress(KeyEvent.VK_V);
-            robot.keyRelease(KeyEvent.VK_V);
-            robot.keyRelease(KeyEvent.VK_CONTROL);
-        });
+    public static TGS_UnionExcuseVoid fromClipboard() {
+        var u_robot = TS_InputCommonUtils.robot();
+        if (u_robot.isExcuse()) {
+            return u_robot.toExcuseVoid();
+        }
+        var robot = u_robot.value();
+        robot.keyPress(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_V);
+        robot.keyRelease(KeyEvent.VK_V);
+        robot.keyRelease(KeyEvent.VK_CONTROL);
+        return TGS_UnionExcuseVoid.ofVoid();
     }
 
     public static void toClipboard(CharSequence text) {
