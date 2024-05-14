@@ -2,14 +2,19 @@
 package com.tugalsan.api.input.server;
 
 import com.tugalsan.api.coronator.client.*;
+import com.tugalsan.api.log.server.TS_Log;
 import com.tugalsan.api.thread.server.sync.TS_ThreadSyncTrigger;
 import com.tugalsan.api.thread.server.async.TS_ThreadAsync;
+import com.tugalsan.api.union.client.TGS_UnionExcuse;
+import com.tugalsan.api.union.client.TGS_UnionExcuseVoid;
 import com.tugalsan.api.unsafe.client.*;
 import java.io.*;
 import java.nio.file.*;
 import javax.sound.sampled.*;
 
 public class TS_InputSound {
+
+    private static final TS_Log d = TS_Log.of(TS_InputSound.class);
 
     public static TS_InputSound of(TS_ThreadSyncTrigger killTrigger, Path file) {
         return new TS_InputSound(killTrigger, file);
@@ -27,7 +32,11 @@ public class TS_InputSound {
         });
         TS_ThreadAsync.now(killTrigger, kt -> {
             TGS_UnSafe.run(() -> {
-                try (var out = new ByteArrayOutputStream(); var line = getTargetDataLineForRecord();) {
+                var u_line =  getTargetDataLineForRecord();
+                if (u_line.isExcuse()){
+                    TGS_UnSafe.thrw(u_line.excuse());
+                }
+                try (var out = new ByteArrayOutputStream(); var line = u_line.value()) {
                     var frameSizeInBytes = format.getFrameSize();
                     var bufferLengthInFrames = line.getBufferSize() / 8;
                     var bufferLengthInBytes = bufferLengthInFrames * frameSizeInBytes;
@@ -74,29 +83,25 @@ public class TS_InputSound {
         return audioStream;
     }
 
-    private TargetDataLine getTargetDataLineForRecord() {
+    private TGS_UnionExcuse<TargetDataLine> getTargetDataLineForRecord() {
         return TGS_UnSafe.call(() -> {
             var info = new DataLine.Info(TargetDataLine.class, format);
-            System.out.println("line.info: " + info.toString());
             if (!AudioSystem.isLineSupported(info)) {
-                System.out.println("line not supported: " + info.toString());
-                return null;
+                return TGS_UnionExcuse.ofExcuse(d.className, "getTargetDataLineForRecord", "line not supported: " + info.toString());
             }
             var line = (TargetDataLine) AudioSystem.getLine(info);
             line.open(format, line.getBufferSize());
-            return line;
+            return TGS_UnionExcuse.of(line);
         }, e -> {
-            e.printStackTrace();
-            return null;
+            return TGS_UnionExcuse.ofExcuse(e);
         });
     }
 
-    public boolean saveToFile() {
+    public TGS_UnionExcuseVoid saveToFile() {
         return TGS_UnSafe.call(() -> {
             var fileType = AudioFileFormat.Type.WAVE;
-            System.out.println("Saving...");
             if (null == fileType || audioInputStream == null) {
-                return false;
+                return TGS_UnionExcuseVoid.ofExcuse(d.className, "saveToFile", "null == fileType || audioInputStream == null");
             }
             var myFile = file.toFile();
             audioInputStream.reset();
@@ -106,11 +111,9 @@ public class TS_InputSound {
                 myFile = new File(temp);
             }
             AudioSystem.write(audioInputStream, fileType, myFile);
-            System.out.println("Saved " + myFile.getAbsolutePath());
-            return true;
+            return TGS_UnionExcuseVoid.ofVoid();
         }, e -> {
-            e.printStackTrace();
-            return false;
+            return TGS_UnionExcuseVoid.ofExcuse(e);
         });
     }
 }
