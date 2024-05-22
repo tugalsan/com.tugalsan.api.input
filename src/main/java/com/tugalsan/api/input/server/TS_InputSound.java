@@ -32,10 +32,7 @@ public class TS_InputSound {
         });
         TS_ThreadAsync.now(killTrigger, kt -> {
             TGS_UnSafe.run(() -> {
-                var u_line =  getTargetDataLineForRecord();
-                if (u_line.isExcuse()){
-                    TGS_UnSafe.thrw(u_line.excuse());
-                }
+                var u_line = getTargetDataLineForRecord();
                 try (var out = new ByteArrayOutputStream(); var line = u_line.value()) {
                     var frameSizeInBytes = format.getFrameSize();
                     var bufferLengthInFrames = line.getBufferSize() / 8;
