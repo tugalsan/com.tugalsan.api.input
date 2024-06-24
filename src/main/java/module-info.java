@@ -3,7 +3,7 @@ module com.tugalsan.api.input {
     requires com.tugalsan.api.unsafe;
     requires com.tugalsan.api.log;
     requires com.tugalsan.api.union;
-    requires com.tugalsan.api.runnable;
+    
     requires com.tugalsan.api.callable;
     requires com.tugalsan.api.shape;
     requires com.tugalsan.api.tuple;
