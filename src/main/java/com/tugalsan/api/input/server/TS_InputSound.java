@@ -1,7 +1,7 @@
 //https://github.com/eugenp/tutorials/blob/master/core-java-modules/core-java-os/src/main/java/com/baeldung/example/soundapi/WaveDataUtil.java
 package com.tugalsan.api.input.server;
 
-import com.tugalsan.api.coronator.client.*;
+import com.tugalsan.api.callable.client.TGS_CallableType1_Coronator;
 import com.tugalsan.api.log.server.TS_Log;
 import com.tugalsan.api.thread.server.sync.TS_ThreadSyncTrigger;
 import com.tugalsan.api.thread.server.async.TS_ThreadAsync;
@@ -22,7 +22,7 @@ public class TS_InputSound {
 
     public TS_InputSound(TS_ThreadSyncTrigger killTrigger, Path file) {
         this.file = file;
-        format = TGS_Coronator.of(AudioFormat.class).coronateAs(val -> {
+        format = TGS_CallableType1_Coronator.of(AudioFormat.class).coronateAs(val -> {
             var encoding = AudioFormat.Encoding.PCM_SIGNED;
             var rate = 44100.0f;
             var channels = 2;
