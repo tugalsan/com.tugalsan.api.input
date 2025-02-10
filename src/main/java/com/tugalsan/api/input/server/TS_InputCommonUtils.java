@@ -1,6 +1,6 @@
 package com.tugalsan.api.input.server;
 
-import com.tugalsan.api.unsafe.client.TGS_UnSafe;
+import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
 import java.awt.Robot;
 
 public class TS_InputCommonUtils {
@@ -9,7 +9,7 @@ public class TS_InputCommonUtils {
         if (robot != null) {
             return robot;
         }
-        return TGS_UnSafe.call(() -> new Robot(), e -> null);
+        return TGS_FuncMTCEUtils.call(() -> new Robot(), e -> null);
     }
     private static volatile Robot robot = null;
 }

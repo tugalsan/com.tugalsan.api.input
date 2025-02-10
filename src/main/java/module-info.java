@@ -1,6 +1,6 @@
 module com.tugalsan.api.input {
     requires java.desktop;
-    requires com.tugalsan.api.unsafe;
+    
     requires com.tugalsan.api.log;
     requires com.tugalsan.api.union;
     
