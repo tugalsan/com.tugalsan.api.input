@@ -22,6 +22,7 @@ public class TS_InputSound {
     }
 
     public TS_InputSound(TS_ThreadSyncTrigger killTrigger, Path file) {
+        var _killTrigger = killTrigger.newChild(d.className);
         this.file = file;
         format = TGS_FuncMTUCEEffectivelyFinal.of(AudioFormat.class).coronateAs(val -> {
             var encoding = AudioFormat.Encoding.PCM_SIGNED;
@@ -31,14 +32,14 @@ public class TS_InputSound {
             var bigEndian = true;
             return new AudioFormat(encoding, rate, sampleSize, channels, (sampleSize / 8) * channels, rate, bigEndian);
         });
-        TS_ThreadAsyncRun.now(killTrigger, kt -> {
+        TS_ThreadAsyncRun.now(_killTrigger, kt -> {
             TGS_FuncMTCEUtils.run(() -> {
                 var u_line = getTargetDataLineForRecord();
                 try (var out = new ByteArrayOutputStream(); var line = u_line.value()) {
                     var frameSizeInBytes = format.getFrameSize();
                     var bufferLengthInFrames = line.getBufferSize() / 8;
                     var bufferLengthInBytes = bufferLengthInFrames * frameSizeInBytes;
-                    pumpByteOutputStream(killTrigger, out, line, bufferLengthInBytes);
+                    pumpByteOutputStream(_killTrigger, out, line, bufferLengthInBytes);
                     audioInputStream = new AudioInputStream(line);
                     audioInputStream = convertToAudioIStream(out, frameSizeInBytes);
                     audioInputStream.reset();
