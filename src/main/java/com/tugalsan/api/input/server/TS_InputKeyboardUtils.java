@@ -1,7 +1,7 @@
 package com.tugalsan.api.input.server;
 
 
-import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
+import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
@@ -88,7 +88,7 @@ public class TS_InputKeyboardUtils {
     }
 
     public static void typeKeyEvent(int keyEvent) {
-        TGS_FuncMTCEUtils.run(() -> {
+        TGS_FuncMTCUtils.run(() -> {
             var robot = TS_InputCommonUtils.robot();
             robot.keyPress(keyEvent);
             robot.keyRelease(keyEvent);
@@ -96,14 +96,14 @@ public class TS_InputKeyboardUtils {
     }
 
     public static void pressKeyEvent(int keyEvent) {
-        TGS_FuncMTCEUtils.run(() -> {
+        TGS_FuncMTCUtils.run(() -> {
             var robot = TS_InputCommonUtils.robot();
             robot.keyPress(keyEvent);
         });
     }
 
     public static void releaseKeyEvent(int keyEvent) {
-        TGS_FuncMTCEUtils.run(() -> {
+        TGS_FuncMTCUtils.run(() -> {
             var robot = TS_InputCommonUtils.robot();
             robot.keyRelease(keyEvent);
         });
@@ -115,7 +115,7 @@ public class TS_InputKeyboardUtils {
     }
 
     public static void fromClipboard() {
-        TGS_FuncMTCEUtils.run(() -> {
+        TGS_FuncMTCUtils.run(() -> {
             var robot = TS_InputCommonUtils.robot();
             robot.keyPress(KeyEvent.VK_CONTROL);
             robot.keyPress(KeyEvent.VK_V);

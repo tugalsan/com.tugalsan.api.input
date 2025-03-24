@@ -1,8 +1,8 @@
 //https://github.com/eugenp/tutorials/blob/master/core-java-modules/core-java-os/src/main/java/com/baeldung/example/soundapi/WaveDataUtil.java
 package com.tugalsan.api.input.server;
 
-import com.tugalsan.api.function.client.maythrow.uncheckedexceptions.TGS_FuncMTUCEEffectivelyFinal;
-import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
+import com.tugalsan.api.function.client.maythrowexceptions.unchecked.TGS_FuncMTUEffectivelyFinal;
+import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
 import com.tugalsan.api.log.server.TS_Log;
 import com.tugalsan.api.thread.server.sync.TS_ThreadSyncTrigger;
 import com.tugalsan.api.thread.server.async.run.TS_ThreadAsyncRun;
@@ -24,7 +24,7 @@ public class TS_InputSound {
     public TS_InputSound(TS_ThreadSyncTrigger killTrigger, Path file) {
         var _killTrigger = killTrigger.newChild(d.className);
         this.file = file;
-        format = TGS_FuncMTUCEEffectivelyFinal.of(AudioFormat.class).coronateAs(val -> {
+        format = TGS_FuncMTUEffectivelyFinal.of(AudioFormat.class).coronateAs(val -> {
             var encoding = AudioFormat.Encoding.PCM_SIGNED;
             var rate = 44100.0f;
             var channels = 2;
@@ -33,7 +33,7 @@ public class TS_InputSound {
             return new AudioFormat(encoding, rate, sampleSize, channels, (sampleSize / 8) * channels, rate, bigEndian);
         });
         TS_ThreadAsyncRun.now(_killTrigger, kt -> {
-            TGS_FuncMTCEUtils.run(() -> {
+            TGS_FuncMTCUtils.run(() -> {
                 var u_line = getTargetDataLineForRecord();
                 try (var out = new ByteArrayOutputStream(); var line = u_line.value()) {
                     var frameSizeInBytes = format.getFrameSize();
@@ -83,7 +83,7 @@ public class TS_InputSound {
     }
 
     private TGS_UnionExcuse<TargetDataLine> getTargetDataLineForRecord() {
-        return TGS_FuncMTCEUtils.call(() -> {
+        return TGS_FuncMTCUtils.call(() -> {
             var info = new DataLine.Info(TargetDataLine.class, format);
             if (!AudioSystem.isLineSupported(info)) {
                 return TGS_UnionExcuse.ofExcuse(d.className, "getTargetDataLineForRecord", "line not supported: " + info.toString());
@@ -97,7 +97,7 @@ public class TS_InputSound {
     }
 
     public TGS_UnionExcuseVoid saveToFile() {
-        return TGS_FuncMTCEUtils.call(() -> {
+        return TGS_FuncMTCUtils.call(() -> {
             var fileType = AudioFileFormat.Type.WAVE;
             if (null == fileType || audioInputStream == null) {
                 return TGS_UnionExcuseVoid.ofExcuse(d.className, "saveToFile", "null == fileType || audioInputStream == null");

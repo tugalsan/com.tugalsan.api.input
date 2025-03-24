@@ -1,6 +1,6 @@
 package com.tugalsan.api.input.server;
 
-import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
+import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
 import java.awt.*;
 import java.awt.event.*;
 import com.tugalsan.api.shape.client.*;
@@ -14,7 +14,7 @@ public class TS_InputMouseUtils {
     }
 
     public static void mouseMove(int x, int y) {
-        TGS_FuncMTCEUtils.run(() -> {
+        TGS_FuncMTCUtils.run(() -> {
             var robot = TS_InputCommonUtils.robot();
             robot.mouseMove(x, y);
         });
@@ -25,21 +25,21 @@ public class TS_InputMouseUtils {
     }
 
     public static void mousePressLeft() {
-        TGS_FuncMTCEUtils.run(() -> {
+        TGS_FuncMTCUtils.run(() -> {
             var robot = TS_InputCommonUtils.robot();
             robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         });
     }
 
     public static void mousePressRelease() {
-        TGS_FuncMTCEUtils.run(() -> {
+        TGS_FuncMTCUtils.run(() -> {
             var robot = TS_InputCommonUtils.robot();
             robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
         });
     }
 
     public static void mouseClickLeft(TGS_ShapeLocation<Integer> loc) {
-        TGS_FuncMTCEUtils.run(() -> {
+        TGS_FuncMTCUtils.run(() -> {
             var robot = TS_InputCommonUtils.robot();
             robot.mouseMove(loc.x, loc.y);
             robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
@@ -48,7 +48,7 @@ public class TS_InputMouseUtils {
     }
 
     public static void mouseClickRight(TGS_ShapeLocation<Integer> loc) {
-        TGS_FuncMTCEUtils.run(() -> {
+        TGS_FuncMTCUtils.run(() -> {
             var robot = TS_InputCommonUtils.robot();
             robot.mouseMove(loc.x, loc.y);
             robot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
