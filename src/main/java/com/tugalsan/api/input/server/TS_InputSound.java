@@ -22,7 +22,7 @@ public class TS_InputSound {
     }
 
     public TS_InputSound(TS_ThreadSyncTrigger killTrigger, Path file) {
-        var _killTrigger = killTrigger.newChild(d.className);
+        var _killTrigger = killTrigger.newChild(d.className());
         this.file = file;
         format = TGS_FuncMTUEffectivelyFinal.of(AudioFormat.class).coronateAs(val -> {
             var encoding = AudioFormat.Encoding.PCM_SIGNED;
@@ -86,7 +86,7 @@ public class TS_InputSound {
         return TGS_FuncMTCUtils.call(() -> {
             var info = new DataLine.Info(TargetDataLine.class, format);
             if (!AudioSystem.isLineSupported(info)) {
-                return TGS_UnionExcuse.ofExcuse(d.className, "getTargetDataLineForRecord", "line not supported: " + info.toString());
+                return TGS_UnionExcuse.ofExcuse(d.className(), "getTargetDataLineForRecord", "line not supported: " + info.toString());
             }
             var line = (TargetDataLine) AudioSystem.getLine(info);
             line.open(format, line.getBufferSize());
@@ -100,7 +100,7 @@ public class TS_InputSound {
         return TGS_FuncMTCUtils.call(() -> {
             var fileType = AudioFileFormat.Type.WAVE;
             if (null == fileType || audioInputStream == null) {
-                return TGS_UnionExcuseVoid.ofExcuse(d.className, "saveToFile", "null == fileType || audioInputStream == null");
+                return TGS_UnionExcuseVoid.ofExcuse(d.className(), "saveToFile", "null == fileType || audioInputStream == null");
             }
             var myFile = file.toFile();
             audioInputStream.reset();
