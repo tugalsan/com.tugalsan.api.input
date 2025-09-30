@@ -1,17 +1,13 @@
 //https://github.com/eugenp/tutorials/blob/master/core-java-modules/core-java-os/src/main/java/com/baeldung/example/soundapi/WaveDataUtil.java
 package com.tugalsan.api.input.server;
 
-import com.tugalsan.api.function.client.maythrowexceptions.unchecked.TGS_FuncMTUEffectivelyFinal;
-import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
-import com.tugalsan.api.log.server.TS_Log;
-import com.tugalsan.api.thread.server.sync.TS_ThreadSyncTrigger;
-import com.tugalsan.api.thread.server.async.run.TS_ThreadAsyncRun;
-import com.tugalsan.api.union.client.TGS_UnionExcuse;
-import com.tugalsan.api.union.client.TGS_UnionExcuseVoid;
-
+import module com.tugalsan.api.function;
+import module com.tugalsan.api.log;
+import module com.tugalsan.api.thread;
+import module com.tugalsan.api.union;
+import module java.desktop;
 import java.io.*;
 import java.nio.file.*;
-import javax.sound.sampled.*;
 
 public class TS_InputSound {
 
@@ -21,7 +17,7 @@ public class TS_InputSound {
         return new TS_InputSound(killTrigger, file);
     }
 
-    public TS_InputSound(TS_ThreadSyncTrigger killTrigger, Path file) {
+    private TS_InputSound(TS_ThreadSyncTrigger killTrigger, Path file) {
         var _killTrigger = killTrigger.newChild(d.className());
         this.file = file;
         format = TGS_FuncMTUEffectivelyFinal.of(AudioFormat.class).coronateAs(val -> {

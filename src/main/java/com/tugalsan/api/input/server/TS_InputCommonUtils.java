@@ -1,9 +1,13 @@
 package com.tugalsan.api.input.server;
 
-import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
-import java.awt.Robot;
+import module com.tugalsan.api.function;
+import module java.desktop;
 
 public class TS_InputCommonUtils {
+    
+    private TS_InputCommonUtils(){
+        
+    }
 
     public static Robot robot() {
         if (robot != null) {

@@ -1,14 +1,15 @@
 package com.tugalsan.api.input.server;
 
-
-import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
-import java.awt.Toolkit;
-import java.awt.datatransfer.StringSelection;
-import java.awt.event.KeyEvent;
-import java.util.Scanner;
-import java.util.stream.IntStream;
+import module com.tugalsan.api.function;
+import module java.desktop;
+import java.util.*;
+import java.util.stream.*;
 
 public class TS_InputKeyboardUtils {
+    
+    private TS_InputKeyboardUtils(){
+        
+    }
 
     public static String readLineFromConsole() {
         return new Scanner(System.in).nextLine();

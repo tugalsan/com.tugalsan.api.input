@@ -1,12 +1,14 @@
 package com.tugalsan.api.input.server;
 
-import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
-import java.awt.*;
-import java.awt.event.*;
-import com.tugalsan.api.shape.client.*;
-
+import module com.tugalsan.api.function;
+import module com.tugalsan.api.shape;
+import module java.desktop;
 
 public class TS_InputMouseUtils {
+
+    private TS_InputMouseUtils() {
+
+    }
 
     public static TGS_ShapeLocation getLocation() {
         var point = MouseInfo.getPointerInfo().getLocation();
